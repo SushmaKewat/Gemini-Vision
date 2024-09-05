@@ -1,17 +1,28 @@
 'use client';
 
-import { useState } from 'react';
+import { SetStateAction, useState } from 'react';
+import axios from 'axios';
 export default function Home() {
 	const [image, setImage] = useState(null);
 	const [value, setValue] = useState('');
+	const [key, setKey] = useState('');
 	const [response, setResponse] = useState('');
 	const [error, setError] = useState('');
 
-	const surpriseOptions: string[] = [];
+	const surpriseOptions: string[] = [
+		'What is in this picture?',
+		'Is there something tasty in this image?',
+		'What is the background of this image?',
+		'Decribe 5 features in this picture.',
+	];
 
 	const surprise = () => {
 		const randomValue = surpriseOptions[Math.floor(Math.random() * surpriseOptions.length)];
 		setValue(randomValue);
+	};
+
+	const uploadImage = async (e: any) => {
+		setImage(e.target.files[0]);
 	};
 
 	const analyzeImage = async () => {
@@ -21,19 +32,21 @@ export default function Home() {
 		}
 
 		try {
-			const options = {
-				method: 'POST',
-				body: JSON.stringify({
-					message: value,
-				}),
-				headers: {
-					'Content-Type': 'application/json',
+			const { data } = await axios.post(
+				'http://localhost:3000/api/',
+				{
+					question: value,
+					key: key,
+					image: image,
 				},
-			};
-			const response = await fetch('http://localhost:3000/api/gemini/', options);
-			const data = await response;
-			console.log(data.statusText);
-			setResponse(data.statusText);
+				{
+					headers: {
+						'Content-Type': 'multipart/form-data',
+					},
+				}
+			);
+			console.log(data);
+			setResponse(data.response);
 		} catch (error) {
 			console.log(error);
 			setError("Something didn't work. Please try again.");
@@ -45,29 +58,6 @@ export default function Home() {
 		setImage(null);
 		setResponse('');
 		setError('');
-	};
-
-	const uploadImage = async (e) => {
-		const formData = new FormData();
-		formData.append('image', e.target.files[0]);
-		setImage(e.target.files[0]);
-
-		try {
-			const options = {
-				method: 'POST',
-				body: formData,
-				/* headers: {
-					'Content-Type': 'multipart/form-data',
-				}, */
-				/* 'Content-Type': 'image/jpg, image/png', */
-			};
-
-			const response = await fetch('http://localhost:3000/api', options);
-			console.log(response.statusText);
-		} catch (error) {
-			console.log(error);
-			setError('Error!');
-		}
 	};
 
 	return (
@@ -97,6 +87,13 @@ export default function Home() {
 					</button>
 				</p>
 				<div className='input-container'>
+					<input
+						type='password'
+						placeholder='Enter your Gemini api key'
+						value={key}
+						onChange={(e) => setKey(e.target.value)}
+					/>
+					<br />
 					<input
 						type='text'
 						placeholder='Type your question here...'
