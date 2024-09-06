@@ -29,15 +29,10 @@ const fileToGenerativePart = (path: string, mimeType: string) => {
 export async function POST(request: Request) {
 	try {
 		const body = await request.formData();
-		console.log('REQUEST LOG: ', body);
 
 		const file = body.get('image');
 		const prompt = body.get('question');
 		const apiKey = body.get('key');
-
-		console.log('FILE: ', file);
-		console.log('QUESTION: ', prompt);
-		console.log('KEY: ', apiKey);
 
 		if (!apiKey) {
 			return new NextResponse('API key is required', { status: 400 });
