@@ -44,14 +44,14 @@ export async function POST(request: Request) {
 
 		const filePath = await saveImageToLocal(file as File);
 
-		const genAI = new GoogleGenerativeAI(apiKey);
+		const genAI = new GoogleGenerativeAI(apiKey as string);
 
 		const model = genAI.getGenerativeModel({
 			model: 'gemini-1.5-flash-latest',
 		});
 
 		const result = await model.generateContent([
-			prompt,
+			prompt as string,
 			fileToGenerativePart(filePath, 'image/*'),
 		]);
 

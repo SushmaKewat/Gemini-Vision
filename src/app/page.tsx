@@ -99,7 +99,7 @@ export default function Home() {
 					<button
 						className='surprise text-sm text-gray-400 mx-2 border border-gray-400 rounded-md px-2 py-0 hover:bg-[#3f5efb] hover:border-[#3f5efb] hover:text-white'
 						onClick={surprise}
-						disabled={response}>
+						disabled={response as unknown as boolean}>
 						Surprise Me!
 					</button>
 				</p>
