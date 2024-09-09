@@ -68,7 +68,7 @@ export default function Home() {
 			<section className='search-section'>
 				<div className='flex flex-col w-2/3 mx-auto my-4 '>
 					<input
-						className='bg-white text-black px-2 py-1 text-md shadow-md'
+						className='bg-white text-black px-4 py-1 text-md shadow-md rounded-full'
 						type='password'
 						placeholder='Enter your Gemini API key'
 						value={key}
@@ -105,7 +105,7 @@ export default function Home() {
 				</p>
 				<div className='input-container grid grid-cols-12 gap-1 my-4'>
 					<input
-						className='col-span-10 bg-white text-black px-2 py-1 text-md shadow-md'
+						className='col-span-10 bg-white text-black px-4 py-1 text-md shadow-md rounded-full'
 						type='text'
 						placeholder='Type your question here...'
 						value={value}
@@ -114,14 +114,14 @@ export default function Home() {
 					{!response && !error && (
 						<button
 							onClick={analyzeImage}
-							className='col-span-2 bg-white px-2 py-1 text-md shadow-md text-black font-semibold'>
+							className='col-span-2 bg-white px-2 py-1 text-md shadow-md text-black font-semibold rounded-full'>
 							Ask me
 						</button>
 					)}
 					{(response || error) && (
 						<button
 							onClick={clear}
-							className='col-span-2 bg-white px-2 py-1 text-md shadow-md text-black font-semibold'>
+							className='col-span-2 bg-white px-2 py-1 text-md shadow-md text-black font-semibold rounded-full'>
 							Clear
 						</button>
 					)}
